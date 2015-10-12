@@ -19,3 +19,7 @@ order: 6
 ## Modifying Particle Libraries
 
 ## Hardware Abstraction Layer
+
+## Bootloader
+
+This section should include a description of locker/unlocker, how to use it, and give a download link.
