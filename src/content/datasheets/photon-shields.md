@@ -2,7 +2,7 @@
 title: Particle shields and kits
 template: datasheet.hbs
 columns: two
-order: 6
+order: 2
 ---
 
 # Shields and accessories
@@ -96,6 +96,14 @@ We have even provided a small prototyping area around the shield for you to add 
 
 **IMPORTANT:** This shield provides regulated power (5V) to the seated Particle device and relays. However, it does not support power to the devices controlled by the relays.
 
+### Relay Shield - Library
+If you're already logged into Build.particle.io then you can [jump directly to the library](https://build.particle.io/libs/55e0a4256b6e3275580009ce/tab/1_Blink_An_LED.cpp) to get going quickly and easily with the RelayShield library, which wraps all the features in easy-to-use functions.
+
+Examples include:
+1. __Blink a Relay__ - How to turn a relay on and off
+2. __Blink all the Relays__ - An extension on the simplest case
+3. __Internet Relays__ - Creating Particle.function()s so that you can turn relays on and off over the Internet
+
 ### Relay Shield - Operation
 
 The schematic for the relay shield is simple and self explanatory. The shield has four relays that are controlled by pins D3, D4, D5 and D6 on the Particle device. Each relay is triggered via a NPN transistor that takes a control signal from the Particle device and switches the relay coil ON and OFF, which in turn makes or breaks the electrical contact on the output. There is also a fly-back diode connected across the coil to help protect the transistor from high voltage transients caused during switching.
@@ -141,8 +149,8 @@ void setup()
    digitalWrite(RELAY3, LOW);
    digitalWrite(RELAY4, LOW);
 
-   //register the Spark function
-   Spark.function("relay", relayControl);
+   //register the Particle function
+   Particle.function("relay", relayControl);
 }
 
 void loop()
@@ -285,7 +293,7 @@ There are two status led located on the left of the JST battery connector labele
 
 The Internet Button is not only an easy way to get started on the Internet of Things, it's also a clean and simple way to start building your own prototypes. Quickly start playing with LEDs, multiple buttons, an accelerometer and more without any wires or soldering.
 
-**NOTE:** There is a known issue with the current release of the Internet Button. On the PCB, the silkscreen labels are incorrect. The correct mapping is, from **right** to **left**, "1-2-3-4", *not* "4-3-2-1" as annotated on the PCB. For super double extra clarity, please see the following pin mapping label table:</span>
+**NOTE:** There is a silkscreen issue with the current release of the Internet Button. On the PCB, the silkscreen labels are incorrect. The correct mapping is, from **right** to **left**, "1-2-3-4", *not* "4-3-2-1" as annotated on the PCB. For super double extra clarity, please see the following pin mapping label table:</span>
 
 |Photon Pin | Correct Mapping | Incorrect Mapping |
 |--------|--------|-------------------------|
@@ -293,6 +301,20 @@ The Internet Button is not only an easy way to get started on the Internet of Th
 |D5 | Button 2   | Button 3 |
 |D6 | Button 3   | Button 2 |
 |D7 | Button 4   | Button 1 |
+
+### Internet Button - Library
+If you're already logged into Build.particle.io then you can [jump directly to the library](https://build.particle.io/libs/55e0a4256b6e3275580009ce/tab/1_Blink_An_LED.cpp) to get going quickly and easily with the InternetButton library, which wraps all the features in easy-to-use functions.
+
+Examples include:
+1. __Blink an LED__ - How to control the smart LEDs on this board
+2. __Blink all the LEDs__ - An extension on the simplest case
+3. __LEDs and Buttons__ - How to read the buttons on the Button, and make LEDs blink with them
+4. __Good Combination__ - A set of button and LED conditionals that I happen to like and use frequently
+5. __Motion__ - The Internet Button also has an accelerometer on it to measure motion- this shows how the related functions work
+6. __Orientation__ - How to use the accelerometer functions to determine the orientation
+7. __Internet__ - Send that data out to the world!
+8. __Making Music__ - Learn how to play notes and songs with your Button
+9. __Release Firmware__ - Big, complicated set of epic.
 
 
 ![Internet Button](/assets/images/shields/internet-button/button.png)
@@ -592,19 +614,102 @@ This is a 128x64 pixel graphic OLED screen that can be either controlled via the
 
 [Datasheet >](/assets/datasheets/makerkit/oled.pdf)
 
-## Electron Shields + Kits
-### Electron Sensor Kit
-*Coming soon!*
+## Electron Solar Kit
+The Solar Kit comes with everything you need to make a solar powered cellular project! Super efficient power design so you can go off-the-grid with no need of wires. It has a big 6W solar panel, waterproof enclosure with cable gland for connecting the panel, and a super low-power timing circuit so the Electron can sleep in between readings. It's an ideal solution for field sensing that needs to go on for months or years.
 
-### Electron Solar Kit
-*Coming soon!*
+### Using the Solar Kit
+Assembly:
+1. Screw the cable gland into the side of the box. If you want it to be truly water-tight, you should add some silicone caulk. Also, the inner nut may not have enough clearance to fit, but that's fine with caulking.
+2. Screw the Solar Shield down inside the box using the included M4 screws. 
+3. Pass the barrel jack wire through the cable gland, leaving the bare wires inside the box and the connector outside. 
+4. Put the red wire into the terminal block marked "+" and the black wire into "GND" and tighten them down firmly with a small screwdriver. 
+5. Tighten the cable gland around the barrel jack wire, 
+6. Plug the Electron into the shield with the USB pointing inward
+7. Connect the male JST wire from the shield to the female JST on the Electron
+8. Plug the battery into the Solar Shield's female JST
+9. Connect the solar panel to the barrel jack. This may take a little force to get secure.
 
-### Electron Asset Tracker
-*Coming soon!*
+*Note: The lid has small plastic "keys" that will only allow it to be screwed down securely in one orientation. Look for them at the outer corners right next to the screw holes*
 
+### Recommended operating conditions
+| Parameter | Symbol | Min | Typ | Max | Unit |
+| :---|:---|:---:|:---:|:---:|:---:|
+| Solar Input Voltage | V<sub>IN</sub> | +4.95<sup>[1]</sup> |  | +32 | V |
+| Supply Output Voltage | V<sub>3V3</sub> |  | +3.3 |  | V |
+| LiPo Battery Voltage | V<sub>LiPo</sub> | +3.6 |  | +4.4 | V |
+| Deep Sleep Current (4.2V LiPo) | I<sub>Qds</sub> | 5 |  | 10 | uA |
+| Operating Temperature | T<sub>op</sub> | -20 |  | +60 | °C |
+| Humidity Range Non condensing, relative humidity | | | | 95 | % |
 
+*Library and photos coming soon!*
 
+## Electron Asset Tracker
+The Asset Tracker is a cellular solution for tracking the location of just about anything! The included shield has a GPS module and an accelerometer, so you can make projects that use location, orientation, and movement. Report vibration as you drive around, save power by keeping the cell modem and GPS off if the device isn't moving, or track boxes. Also has a barrel jack connector for adding another power source and a connector for adding an external GPS antenna if it's going to be inside something. Designed by Adafruit!
 
+### Using the Asset Tracker
+**GPS**
+The shield has the same GPS module as the [Adafruit Ultimate GPS](https://learn.adafruit.com/adafruit-ultimate-gps/) so all of their specs and usage notes apply here, too. The primary bit to know is that the GPS module can take _several minutes_ to get a lock, and may not get a lock at all if it doesn't have a *clear view* of the sky- sorry, no indoors projects. If this is proving a problem for you, an [external antenna](https://www.adafruit.com/products/960) may help (don't forget an SMA to uFL adapter!).
+
+When the `GPS Fix` LED is blinking once per second (1Hz) then it is trying to get a fix but does not yet have one. It will blink once per 15 seconds when it actively has a fix, and you can check that from code using the `.gpsFix()` function.
+
+The GPS is connected to the Serial1 UART on the Electron, and we've also provided a MOSFET to completely shut off power to it for major power savings. Pin D6 controls the GPS power, with inverted logic. This means that the GPS will only be ON when D6 is LOW, which should keep it off even if you put the Electron to sleep.
+
+There's a backup battery holder for the GPS to reduce subsequent fix acquisition times, but it's *not required*. This is the small coin cell (sometimes called a watch battery) holder slot.
+
+**Accelerometer**
+Also onboard is an accelerometer, the [LIS3DH](http://www.adafruit.com/datasheets/LIS3DH.pdf). It's extremely low power so won't chew up your energy budget. The accel communicates over SPI, so it takes up A2, A3, A4, and A5 as marked on the silkscreen of the shield. A configurable interrupt from the LIS3DH is connected to the Electron's "wake" (WKP) pin, so you should be able to make a project where the Electron and GPS stay in deep sleep until it's hit hard enough to cross a threshold you set on the accelerometer.
+
+**Enclosure**
+The waterproof box includes two M4 screws for mounting the shield securely into the box. Screw the shield down in the enclosure, then plug the Electron into the shield with the USB connector facing inward. You can also look at the silkscreen Electron outline on the board for the correct orientation. The battery and antenna can be fixed in the box using the foam adhesive tape if you want to keep them from moving around.
+
+### Library
+We've put together a great library for you to start building from! If you're already logged into Build then you can just click on [AssetTracker library](https://build.particle.io/libs/56ca184fd7e949613400086f/tab/1_GPS_Features.cpp) and you can always open the "Libraries" view in Build, and AssetTracker will show up under the Official Libraries. This library is especially good for learning about the Electron because it implements a couple of useful features, like a Particle.function for checking the battery level!
+
+Examples:
+1. __GPS Features__ - How to use the GPS efficiently, and some nice Electron functions
+2. __Accelerometer__ - Using the accelerometer with some cute tricks
+
+### Recommended operating conditions
+| Parameter | Symbol | Min | Typ | Max | Unit |
+| :---|:---|:---:|:---:|:---:|:---:|
+| Supply Input Voltage | V<sub>IN</sub> | +5.0<sup>[1]</sup> |  | +12 | V |
+| Supply Output Voltage | V<sub>3V3</sub> |  | +3.3 |  | V |
+| LiPo Battery Voltage | V<sub>LiPo</sub> | +3.6 |  | +4.4 | V |
+| Backup power consumption at 3V (GPS only) | I<sub>Qs</sub> |  | 7 |  | uA |
+| Deep Sleep Current (4.2V LiPo) | I<sub>Qds</sub> |  | 120 | 140 | uA |
+| Operating Temperature | T<sub>op</sub> | -20 |  | +60 | °C |
+| Humidity Range Non condensing, relative humidity | | | | 95 | % |
+
+*Photos coming soon!*
+
+## Electron Sensor Kit
+This is the big one! A fantastic collection of premium and versatile sensors.
+### Sensor Kit Includes
+- (1) Electron
+- (1) USB Micro B Cable
+- (1) Particle SIM Card
+- (1) Cellular Antenna
+- (1) 2000mAh LiPo Battery
+- (1) Particle Sticker
+- (2) Resistor 220-Ohm
+- (1) Breadboard
+- (1) Photoresistor
+- (1) Bright LED - White
+
+AND
+
+- (1) [ADXL362](http://www.analog.com/media/en/technical-documentation/data-sheets/ADXL362.pdf) accelerometer
+- (1) [GP2Y0A710K0F](https://acroname.com/sites/default/files/assets/sharp_gp2y0a710yk0f_datasheet.pdf) 100-550cm IR Distance sensor
+- (1) [Loudness sensor](http://www.seeedstudio.com/wiki/Grove_-_Loudness_Sensor) with LM2904 opamp
+- (1) [MQ2 gas sensor](https://www.seeedstudio.com/depot/datasheet/MQ-2.pdf) for LPG, i-butane, propane, methane ,alcohol, Hydrogen, smoke
+- (1) [SHT10](https://www.adafruit.com/products/1298) soil humidity and temperature sensor
+- (1) [HC-SR501](https://www.mpja.com/download/31227sc.pdf) PIR motion sensor
+- (1) Soil moisture sensor with LM393 (similar to [this one](http://seeedstudio.com/wiki/Grove_-_Moisture_Sensor))
+- (1) [DS18B20](https://www.adafruit.com/products/381) waterproof temperature sensor
+- (1) [SW18020P](http://www.electrodragon.com/product/vibration-switch-sensor-sw-18020p/) vibration sensor
+- Various jumper wires, resistors, capacitors, LEDs, and pushbuttons
+
+*Library and photos coming soon!*
 
 
 <!--

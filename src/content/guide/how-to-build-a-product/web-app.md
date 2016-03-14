@@ -64,7 +64,7 @@ information.
 While easy to understand and set up, webhooks at scale might require some considerations.
 Each triggering of a webhook causes a request to be sent, so make sure your
 app can handle the traffic.  For example, a small beta run of 1000 devices,
-each publishing once a minute might cause anywhere from 17 to 1000 requests 
+each publishing once a minute might cause anywhere from 17 to 1000 requests
 in a given second, depending on how the publishes line up.  Webhooks will
 support some basic queuing and smoothing to help address bursts like this, and a number
 of cloud hosting providers offer data ingestion services that can handle continuous
@@ -79,7 +79,7 @@ stream of server-sent events that will efficiently transport all the data your
 products can publish without all the HTTP overhead for every event.
 
 Check out our API reference on
-[subscribing to event streams](/reference/api/#subscribing-to-events)
+[subscribing to event streams](/reference/api/#get-a-stream-of-events)
 for more information.
 
 When deploying on Heroku, you'll need to create worker process to listen to the
@@ -100,9 +100,9 @@ function on one device to cause it to dance rainbows.
 
 ## What's next?
 
-Expect significant updates to this page in August 2015. We can't wait to show
+We can't wait to show
 you how just how easy it is to build a web app for your product on Particle!
 
-If your product is better suited for a mobile app, you will wantto
+If your product is better suited for a mobile app, you will want to
 [build your iOS and Android mobile apps](/guide/how-to-build-a-product/mobile-app/)
 using our mobile SDKs.

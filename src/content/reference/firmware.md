@@ -121,7 +121,7 @@ The length of the `funcKey` is limited to a max of 12 characters. If you declare
 
 Example: Particle.function("someFunction1", ...); exposes a function called someFunction and not someFunction1
 
-A cloud function is set up to take one argument of the [String](#language-syntax-string-class) datatype. This argument length is limited to a max of 63 characters.
+A cloud function is set up to take one argument of the [String](#string-class) datatype. This argument length is limited to a max of 63 characters.
 
 ```cpp
 // EXAMPLE USAGE
@@ -346,15 +346,6 @@ Particle.subscribe("the_event_prefix", theHandler, MY_DEVICES);
 
 ---
 
-You are also able to subscribe to events from a single device by specifying the device's ID.
-
-```cpp
-// Subscribe to events published from a specific device
-Particle.subscribe("motion/front-door", motionHandler, "55ff70064989495339432587");
-```
-
----
-
 You can register a method in a C++ object as a subscription handler.
 
 ```cpp
@@ -413,7 +404,7 @@ void loop() {
 
 After you call `Particle.connect()`, your loop will not be called again until the device finishes connecting to the Cloud. Typically, you can expect a delay of approximately one second.
 
-In most cases, you do not need to call `Particle.connect()`; it is called automatically when the device turns on. Typically you only need to call `Particle.connect()` after disconnecting with [`Particle.disconnect()`](#particle-disconnect) or when you change the [system mode](#system-system-modes).
+In most cases, you do not need to call `Particle.connect()`; it is called automatically when the device turns on. Typically you only need to call `Particle.connect()` after disconnecting with [`Particle.disconnect()`](#particle-disconnect-) or when you change the [system mode](#system-modes).
 
 
 ### Particle.disconnect()
@@ -458,10 +449,7 @@ void loop() {
 }
 ```
 
-
-While this function will disconnect from the Cloud, it will keep the connection to the {{#unless electron}}Wi-Fi network. If you would like to completely deactivate the Wi-Fi module, use [`WiFi.off()`](#wifi-off).{{/unless}}{{#if electron}}Cellular network. If you would like to completely deactivate the Cellular module, use [`Cellular.off()`](#cellular-off).{{/if}}
-=======
-While this function will disconnect from the Cloud, it will keep the connection to the Wi-Fi network. If you would like to completely deactivate the Wi-Fi module, use [`WiFi.off()`](#off-).
+While this function will disconnect from the Cloud, it will keep the connection to the {{#unless electron}}Wi-Fi network. If you would like to completely deactivate the Wi-Fi module, use [`WiFi.off()`](#off-).{{/unless}}{{#if electron}}Cellular network. If you would like to completely deactivate the Cellular module, use [`Cellular.off()`](#off-).{{/if}}
 
 
 **NOTE:* When the device is disconnected, many features are not possible, including over-the-air updates, reading Particle.variables, and calling Particle.functions.
@@ -520,7 +508,7 @@ void redundantLoop() {
 }
 ```
 
-`Particle.process()` is a blocking call, and blocks for a few milliseconds. `Particle.process()` is called automatically after every `loop()` and during delays. Typically you will not need to call `Particle.process()` unless you block in some other way and need to maintain the connection to the Cloud, or you change the [system mode](#system-system-modes). If the user puts the device into `MANUAL` mode, the user is responsible for calling `Particle.process()`. The more frequently this function is called, the more responsive the device will be to incoming messages, the more likely the Cloud connection will stay open, and the less likely that the Wi-Fi module's buffer will overrun.
+`Particle.process()` is a blocking call, and blocks for a few milliseconds. `Particle.process()` is called automatically after every `loop()` and during delays. Typically you will not need to call `Particle.process()` unless you block in some other way and need to maintain the connection to the Cloud, or you change the [system mode](#system-modes). If the user puts the device into `MANUAL` mode, the user is responsible for calling `Particle.process()`. The more frequently this function is called, the more responsive the device will be to incoming messages, the more likely the Cloud connection will stay open, and the less likely that the Wi-Fi module's buffer will overrun.
 
 ### Particle.syncTime()
 
@@ -619,7 +607,7 @@ void setup() {
 
 `WiFi.on()` turns on the Wi-Fi module. Useful when you've turned it off, and you changed your mind.
 
-Note that `WiFi.on()` does not need to be called unless you have changed the [system mode](#system-system-modes) or you have previously turned the Wi-Fi module off.
+Note that `WiFi.on()` does not need to be called unless you have changed the [system mode](#system-modes) or you have previously turned the Wi-Fi module off.
 
 ### off()
 
@@ -627,12 +615,23 @@ Note that `WiFi.on()` does not need to be called unless you have changed the [sy
 
 ### connect()
 
-Attempts to connect to the Wi-Fi network. If there are no credentials stored, this will enter listening mode. If there are credentials stored, this will try the available credentials until connection is successful. When this function returns, the device may not have an IP address on the LAN; use `WiFi.ready()` to determine the connection status.
+Attempts to connect to the Wi-Fi network. If there are no credentials stored, this will enter listening mode (see below for how to avoid this.). If there are credentials stored, this will try the available credentials until connection is successful. When this function returns, the device may not have an IP address on the LAN; use `WiFi.ready()` to determine the connection status.
 
 ```cpp
 // SYNTAX
 WiFi.connect();
 ```
+
+_Since 0.4.5_
+It's possible to call `WiFi.connect()` without entering listening mode in the case where no credentials are stored:
+
+```cpp
+// SYNTAX
+WiFi.connect(WIFI_CONNECT_NO_LISTEN);
+```
+
+If there are no credentials then the call does nothing other than turn on the WiFi module. 
+
 
 ### disconnect()
 
@@ -798,7 +797,9 @@ WiFi.setCredentials("SSID", "PASSWORD", WPA2, WLAN_CIPHER_AES));
 
 *Since 0.4.9.*
 
-Lists the Wi-Fi credentials stored on the device. Returns the number of stored credentials.
+Lists the Wi-Fi networks with credentials stored on the device. Returns the number of stored networks.
+
+Note that this returns details about the Wi-Fi networks, but not the actual password.
 
 {{#if core}}
 
@@ -813,14 +814,12 @@ int found = WiFi.getCredentials(ap, 5);
 for (int i = 0; i < found; i++) {
     Serial.print("ssid: ");
     Serial.println(ap[i].ssid);
-    Serial.print("bssid: ");
-    Serial.println(ap[i].bssid);
     // security is one of WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA, WLAN_SEC_WPA2
+    Serial.print("security: ");
     Serial.println(ap[i].security);
     // cipher is one of WLAN_CIPHER_AES, WLAN_CIPHER_TKIP
+    Serial.print("cipher: ");
     Serial.println(ap[i].cipher);
-    Serial.println(ap[i].rssi);
-    Serial.println(ap[i].channel);
 }
 ```
 
@@ -919,7 +918,7 @@ void setup() {
 
 ### RSSI()
 
-`WiFi.RSSI()` returns the signal strength of a Wi-Fi network from from -127 to -1dB as an `int`. Positive return values indicate an error with 1 indicating a Wi-Fi chip error and 2 indicating a time-out error.
+`WiFi.RSSI()` returns the signal strength of a Wi-Fi network from from -127 (weak) to -1dB (strong) as an `int`. Positive return values indicate an error with 1 indicating a Wi-Fi chip error and 2 indicating a time-out error.
 
 ```cpp
 // SYNTAX
@@ -1359,6 +1358,10 @@ void setup() {
 
 `Cellular.command()` is a powerful API that allows users access to directly send AT commands to, and parse responses returned from, the Cellular module.  Commands may be sent with and without printf style formatting. The API also includes the ability pass a callback function pointer which is used to parse the response returned from the cellular module.
 
+You can download the latest <a href="https://www.u-blox.com/en/product-resources/2432?f[0]=field_file_category%3A210" target="_blank">u-blox AT Commands Manual</a>.
+
+Another good resource is the <a href="https://www.u-blox.com/sites/default/files/AT-CommandsExamples_AppNote_%28UBX-13001820%29.pdf" target="_blank">u-blox AT Command Examples Application Note</a>.
+
 The prototype definition is as follows:
 
 `int Cellular.command(_CALLBACKPTR_MDM cb, void* param, system_tick_t timeout, const char* format, ...);`
@@ -1710,6 +1713,8 @@ analogWrite(DAC1, 1024);
 
 Reads the value from the specified analog pin. The device has 8 channels (A0 to A7) with a 12-bit resolution. This means that it will map input voltages between 0 and 3.3 volts into integer values between 0 and 4095. This yields a resolution between readings of: 3.3 volts / 4096 units or, 0.0008 volts (0.8 mV) per unit.
 
+**Note**: do *not* set the pinMode() with `analogRead()`. The pinMode() is automatically set to AN_INPUT the first time analogRead() is called for a particular analog pin. If you explicitly set a pin to INPUT or OUTPUT after that first use of analogRead(), it will not attempt to switch it back to AN_INPUT the next time you call analogRead() for the same analog pin. This will create incorrect analog readings.
+
 ```C++
 // SYNTAX
 analogRead(pin);
@@ -1727,12 +1732,14 @@ int val = 0;                    // variable to store the read value
 
 void setup()
 {
-  pinMode(ledPin, OUTPUT);      // sets the pin as output
+  // Note: analogPin pin does not require pinMode()
+
+  pinMode(ledPin, OUTPUT);      // sets the ledPin as output
 }
 
 void loop()
 {
-  val = analogRead(analogPin);  // read the input pin
+  val = analogRead(analogPin);  // read the analogPin
   analogWrite(ledPin, val/16);  // analogRead values go from 0 to 4095, analogWrite values from 0 to 255
   delay(10);
 }
@@ -1905,7 +1912,13 @@ void loop()
 
 ### tone()
 
-Generates a square wave of the specified frequency and duration (and 50% duty cycle) on a timer channel pin (D0, D1, A0, A1, A4, A5, A6, A7, RX, TX). Use of the tone() function will interfere with PWM output on the selected pin.
+Generates a square wave of the specified frequency and duration (and 50% duty cycle) on a timer channel pin which supports PWM. Use of the tone() function will interfere with PWM output on the selected pin.
+
+- On the Core, this function works on pins D0, D1, A0, A1, A4, A5, A6, A7, RX and TX.
+
+- On the Photon and Electron, this function works on pins D0, D1, D2, D3, A4, A5, WKP, RX and TX with a caveat: Tone timer peripheral is duplicated on two pins (A5/D2) and (A4/D3) for 7 total independent Tone outputs. For example: Tone may be used on A5 while D2 is used as a GPIO, or D2 for Tone while A5 is used as an analog input. However A5 and D2 cannot be used as independent Tone outputs at the same time.
+
+- Additionally on the Electron, this function works on pins B0, B1, B2, B3, C4, C5.
 
 ```C++
 // SYNTAX
@@ -1913,6 +1926,8 @@ tone(pin, frequency, duration)
 ```
 
 `tone()` takes three arguments, `pin`: the pin on which to generate the tone, `frequency`: the frequency of the tone in hertz and `duration`: the duration of the tone in milliseconds (a zero value = continuous tone).
+
+The frequency range is from 20Hz to 20kHz. Frequencies outside this range will not be played.
 
 `tone()` does not return anything.
 
@@ -2954,9 +2969,29 @@ NOTE: `tx_buffer` and `rx_buffer` sizes MUST be identical (of size `length`)
 Wire (I2C)
 ----
 
+{{#unless electron}}
 ![I2C](/assets/images/core-pin-i2c.jpg)
+{{/unless}}
 
-This library allows you to communicate with I2C / TWI devices. On the Core/Photon/Electron, D0 is the Serial Data Line (SDA) and D1 is the Serial Clock (SCL). Both of these pins runs at 3.3V logic but are tolerant to 5V. Connect a pull-up resistor(1.5k to 10k) on SDA line. Connect a pull-up resistor(1.5k to 10k) on SCL line.
+This library allows you to communicate with I2C / TWI(Two Wire Interface) devices. On the Core/Photon/Electron, D0 is the Serial Data Line (SDA) and D1 is the Serial Clock (SCL). {{#if electron}}Additionally on the Electron, there is an alternate pin location for the I2C interface: C4 is the Serial Data Line (SDA) and C5 is the Serial Clock (SCL).{{/if}} Both SCL and SDA pins are open-drain outputs that only pull LOW and typically operate with 3.3V logic, but are tolerant to 5V. Connect a pull-up resistor(1.5k to 10k) on the SDA line to 3V3. Connect a pull-up resistor(1.5k to 10k) on the SCL line to 3V3.  If you are using a breakout board with an I2C peripheral, check to see if it already incorporates pull-up resistors.
+
+These pins are used via the `Wire` object.
+
+* `SCL` => `D1`
+* `SDA` => `D0`
+
+{{#if electron}}
+Additionally on the Electron, there is an alternate pin location for the I2C interface, which can
+be used via the `Wire1` object. This alternate location is mapped as follows:
+* `SCL` => `C5`
+* `SDA` => `C4`
+
+**Note**: Because there are multiple I2C locations available, be sure to use the same `Wire` or `Wire1` object with all associated functions. I.e.,
+
+Do **NOT** use **Wire**.begin() with **Wire1**.write();
+
+**Do** use **Wire1**.begin() with **Wire1**.transfer();
+{{/if}}
 
 ### setSpeed()
 
@@ -3256,22 +3291,28 @@ void loop()
 ```
 
 {{#unless core}}
+
 ## CAN (CANbus)
+
+![CAN bus](/assets/images/can.png)
+
+*Since 0.4.9*
+
+<a href="https://en.wikipedia.org/wiki/CAN_bus" target="_blank">Controller area network (CAN bus)</a> is a bus used in most automobiles, as well as some industrial equipment, for communication between different microcontrollers.
 
 The Photon and Electron support communicating with CAN devices via the CAN bus.
 
 - The Photon and Electron have a CANbus on pins D1 (CAN2_TX) and D2 (CAN2_RX).
-- The Electron only has a second CANbus on pins C4 (CAN1_TX) and C5 (CAN1_TX).
+- The Electron only, has a second CANbus on pins C4 (CAN1_TX) and C5 (CAN1_TX).
 
+**Note**: an additional CAN transceiver integrated circuit is needed to convert the logic-level voltages of the Photon or Electron to the voltage levels of the CAN bus.
 
-```c++
-// SYNTAX
-// Photon and Electron
-CANChannel can(CAN_D1_D2);
-// Electron only has a second CANbus
-CANChannel can(CAN_C4_C5);
+On the Photon or Electron, connect pin D1 to the TX pin of the CAN transceiver and pin D2 to the RX pin.
 
-// EXAMPLE on pins D1 & D2
+On the Electron only, connect pin C4 to the TX pin of the CAN transceiver and pin C5 to the RX pin.
+
+```
+// EXAMPLE USAGE on pins D1 & D2
 CANChannel can(CAN_D1_D2);
 
 void setup() {
@@ -3281,14 +3322,14 @@ void setup() {
 }
 
 void loop() {
-    CANMessage Message;
+    CANMessage message;
 
     Message.id = 0x100;
-    can.transmit(Message);
+    can.transmit(message);
 
     delay(10);
 
-    if(can.receive(Message)) {
+    if(can.receive(message)) {
         // message received
     }
 }
@@ -3309,17 +3350,213 @@ struct CANMessage
 }
 ```
 
-### CAN.begin()
+### CANChannel
 
-Joins the bus at the given `baud` rate.
+Create a `CANChannel` global object to connect to a CAN bus on the specified pins.
+
 ```C++
 // SYNTAX
-CANChannel can(CAN_D1_D2);
-can.begin(baud);
+CANChannel can(pins, rxQueueSize, txQueueSize);
 ```
+
+Parameters:
+
+- `pins`: the Photon and Electron support pins `CAN_D1_D2`, and the Electron only, supports pins `CAN_C4_C5`
+- `rxQueueSize` (optional): the receive queue size (default 32 message)
+- `txQueueSize` (optional): the transmit queue size (default 32 message)
+
+```C++
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+// Buffer 10 received messages and 5 transmitted messages
+CANChannel can(CAN_D1_D2, 10, 5);
+```
+
+### begin()
+
+Joins the bus at the given `baud` rate.
+
+```C++
+// SYNTAX
+can.begin(baud, flags);
+```
+
+Parameters:
+
+- `baud`: common baud rates are 50000, 100000, 125000, 250000, 500000, 1000000
+- `flags` (optional): `CAN_TEST_MODE` to run the CAN bus in test mode where every transmitted message will be received back
+
+```C++
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+can.begin(500000);
+// Use for testing without a CAN transceiver
+can.begin(500000, CAN_TEST_MODE);
+```
+
+### end()
+
+Disconnect from the bus.
+
+```
+// SYNTAX
+CANChannel can(CAN_D1_D2);
+can.end();
+```
+
+### available()
+
+The number of received messages waiting in the receive queue.
+
+Returns: `uint8_t` : the number of messages.
+
+```
+// SYNTAX
+uint8_t count = can.available();
+```
+
+```
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+if(can.available() > 0) {
+  // there are messages waiting
+}
+```
+
+### receive()
+
+Take a received message from the receive queue. This function does not wait for a message to arrive.
+
+```
+// SYNTAX
+can.receive(message);
+```
+
+Parameters:
+
+- `message`: where the received message will be copied
+
+Returns: boolean `true` if a message was received, `false` if the receive queue was empty.
+
+```
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+CANMessage message;
+if(can.receive(message)) {
+  Serial.println(message.id);
+  Serial.println(message.len);
+}
+```
+
+### transmit()
+
+Add a message to the queue to be transmitted to the CAN bus as soon as possible.
+
+```
+// SYNTAX
+can.transmit(message);
+```
+
+Parameters:
+
+- `message`: the message to be transmitted
+
+Returns: boolean `true` if the message was added to the queue, `false` if the transmit queue was full.
+
+```
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+CANMessage message;
+message.id = 0x100;
+message.length = 1;
+message.data[0] = 42;
+can.transmit(message);
+```
+
+**Note**: Since the CAN bus requires at least one other CAN node to acknowledge transmitted messages if the Photon or Electron is alone on the bus (such as when using a CAN shield with no other CAN node connected) then messages will never be transmitted and the transmit queue will fill up.
+
+### addFilter()
+
+Filter which messages will be added to the receive queue.
+
+```
+// SYNTAX
+can.addFilter(id, mask);
+can.addFilter(id, mask, type);
+```
+
+By default all messages are received. When filters are added, only messages matching the filters will be received. Others will be discarded.
+
+Parameters:
+
+- `id`: the id pattern to match
+- `mask`: the mask pattern to match
+- `type` (optional): `CAN_FILTER_STANDARD` (default) or `CAN_FILTER_EXTENDED`
+
+Returns: boolean `true` if the filter was added, `false` if there are too many filters (14 filters max).
+
+```
+// EXAMPLES
+CANChannel can(CAN_D1_D2);
+// Match only message ID 0x100
+can.addFilter(0x100, 0x7FF);
+// Match any message with the highest ID bit set
+can.addFilter(0x400, 0x400);
+// Match any message with the higest ID bit cleared
+can.addFilter(0x0, 0x400);
+// Match only messages with extended IDs
+can.addFilter(0, 0, CAN_FILTER_EXTENDED);
+```
+
+### clearFilters()
+
+Clear filters and accept all messages.
+
+```
+// SYNTAX
+CANChannel can(CAN_D1_D2);
+can.clearFilters();
+```
+
+### isEnabled()
+
+Used to check if the CAN bus is enabled already.  Check if enabled before calling can.begin() again.
+
+```
+// SYNTAX
+CANChannel can(CAN_D1_D2);
+can.isEnabled();
+```
+
+Returns: boolean `true` if the CAN bus is enabled, `false` if the CAN bus is disabled.
+
+### errorStatus()
+
+Get the current error status of the CAN bus.
+
+```
+// SYNTAX
+int status = can.errorStatus();
+```
+
+Returns: int `CAN_NO_ERROR` when everything is ok, `CAN_ERROR_PASSIVE` when not attempting to transmit messages but still acknowledging messages, `CAN_BUS_OFF` when not transmitting or acknowledging messages.
+
+```
+// EXAMPLE
+CANChannel can(CAN_D1_D2);
+if(can.errorStatus() == CAN_BUS_OFF) {
+  Serial.println("Not properly connected to CAN bus");
+}
+```
+
+This value is only updated when attempting to transmit messages.
+
+The two most common causes of error are: being alone on the bus (such as when using a CAN shield not connected to anything) or using the wrong baud rate. Attempting to transmit in those situations will result in `CAN_BUS_OFF`.
+
+Errors heal automatically when properly communicating with other microcontrollers on the CAN bus.
 {{/unless}}
 
-### IPAddress
+## IPAddress
 
 Creates an IP address that can be used with TCPServer, TCPClient, and UDP objects.
 
@@ -3838,7 +4075,7 @@ Parameters: NONE
 
 ### write()
 
-Writes UDP data to the buffe - no data is actually sent. Must be wrapped between `beginPacket()` and `endPacket()`. `beginPacket()` initializes the packet of data, it is not sent until `endPacket()` is called.
+Writes UDP data to the buffer - no data is actually sent. Must be wrapped between `beginPacket()` and `endPacket()`. `beginPacket()` initializes the packet of data, it is not sent until `endPacket()` is called.
 
 ```cpp
 // SYNTAX
@@ -4557,7 +4794,7 @@ Set the system time to the given timestamp.
 *NOTE*: This will override the time set by the Particle Cloud.
 If the cloud connection drops, the reconnection handshake will set the time again
 
-Also see: [`Particle.syncTime()`](#particle-synctime)
+Also see: [`Particle.syncTime()`](#particle-synctime-)
 
 ```cpp
 // Set the time to 2014-10-11 13:37:42
@@ -4792,7 +5029,7 @@ attachInterrupt(pin, function, mode, priority, subpriority);
 - `priority` (optional): the priority of this interrupt. Default priority is 13. Lower values increase the priority of the interrupt.
 - `subpriority` (optional): the subpriority of this interrupt. Default subpriority is 0.
 
-The function does not return anything.
+The function returns a boolaen whether the ISR was successfully attached (true) or not (false).
 
 ```C++
 // EXAMPLE USAGE
@@ -5380,6 +5617,7 @@ Write a byte of data to the emulated EEPROM.
 
 - On the Core, this must be a value between 0 and 99
 - On the Photon/Electron, this must be a value between 0 and 2047
+
 ```C++
 // EXAMPLE USAGE
 
@@ -5767,7 +6005,7 @@ void loop() {
 
 - When the device starts up, it automatically tries to connect to Wi-Fi and the Particle Cloud.
 - Once a connection with the Particle Cloud has been established, the user code starts running.
-- Messages to and from the Cloud are handled in between runs of the user loop; the user loop automatically alternates with [`Particle.process()`](#particle-process).
+- Messages to and from the Cloud are handled in between runs of the user loop; the user loop automatically alternates with [`Particle.process()`](#particle-process-).
 - `Particle.process()` is also called during any delay() of at least 1 second.
 - If the user loop blocks for more than about 20 seconds, the connection to the Cloud will be lost. To prevent this from happening, the user can call `Particle.process()` manually.
 - If the connection to the Cloud is ever lost, the device will automatically attempt to reconnect. This re-connection will block from a few milliseconds up to 8 seconds.
@@ -5799,12 +6037,12 @@ void loop() {
 The semi-automatic mode is therefore much like the automatic mode, except:
 
 - When the device boots up, the user code will begin running immediately.
-- When the user calls [`Particle.connect()`](#particle-connect), the user code will be blocked, and the device will attempt to negotiate a connection. This connection will block until either the device connects to the Cloud or an interrupt is fired that calls [`Particle.disconnect()`](#particle-disconnect).
+- When the user calls [`Particle.connect()`](#particle-connect-), the user code will be blocked, and the device will attempt to negotiate a connection. This connection will block until either the device connects to the Cloud or an interrupt is fired that calls [`Particle.disconnect()`](#particle-disconnect-).
 
 ### Manual mode
 
 
-The "manual" mode puts the device's connectivity completely in the user's control. This means that the user is responsible for both establishing a connection to the Particle Cloud and handling communications with the Cloud by calling [`Particle.process()`](#particle-process) on a regular basis.
+The "manual" mode puts the device's connectivity completely in the user's control. This means that the user is responsible for both establishing a connection to the Particle Cloud and handling communications with the Cloud by calling [`Particle.process()`](#particle-process-) on a regular basis.
 
 ```cpp
 SYSTEM_MODE(MANUAL);
@@ -5827,8 +6065,8 @@ void loop() {
 When using manual mode:
 
 - The user code will run immediately when the device is powered on.
-- Once the user calls [`Particle.connect()`](#particle-connect), the device will attempt to begin the connection process.
-- Once the device is connected to the Cloud ([`Particle.connected()`](#particle-connected)` == true`), the user must call `Particle.process()` regularly to handle incoming messages and keep the connection alive. The more frequently `Particle.process()` is called, the more responsive the device will be to incoming messages.
+- Once the user calls [`Particle.connect()`](#particle-connect-), the device will attempt to begin the connection process.
+- Once the device is connected to the Cloud ([`Particle.connected()`](#particle-connected-)` == true`), the user must call `Particle.process()` regularly to handle incoming messages and keep the connection alive. The more frequently `Particle.process()` is called, the more responsive the device will be to incoming messages.
 - If `Particle.process()` is called less frequently than every 20 seconds, the connection with the Cloud will die. It may take a couple of additional calls of `Particle.process()` for the device to recognize that the connection has been lost.
 
 
@@ -5837,8 +6075,8 @@ When using manual mode:
 
 *Since 0.4.6.*
 
-> Please note that the System Thread feature is in Beta - we advise only using this
-in production after extensive testing.
+{{#if electron}}**Please note:** The System Thread feature is in Beta - we advise only using this
+in production after extensive testing.{{/if}}
 
 The System Thread is a system configuration that helps ensure the application loop
 is not interrupted by the system background processing and network management.
@@ -5923,7 +6161,7 @@ void setup()
 {
 	// the system thread isn't busy so these synchronous functions execute quickly
     Particle.subscribe("event", handler);
-	Partible.publish("myvar", myvar);
+	Particle.publish("myvar", myvar);
 	Particle.connect();    // <-- now connect to the cloud, which ties up the system thread
 }
 ```
@@ -6034,12 +6272,12 @@ The `TRY_LOCK()` statement functions similarly to `WITH_LOCK()` but it does not 
 
 ### Waiting for the system
 
-The [waitUntil](#waituntil) function can be used to wait for something to happen.
+The [waitUntil](#waituntil-) function can be used to wait for something to happen.
 Typically this is waiting for something that the system is doing,
 such as waiting for Wi-Fi to be ready or the cloud to be connected.
 
 
-#### `waitUntil`
+#### waitUntil()
 
 Sometimes you want your application  to wait until the system is in a given state.
 
@@ -6232,7 +6470,7 @@ System.dfu(true);   // persistent DFU mode - will enter DFU after a reset until 
 
 ### deviceID()
 
-`System.deviceID()` provides an easy way to extract the device ID of your device. It returns a [String object](#data-types-string-object) of the device ID, which is used to identify your device.
+`System.deviceID()` provides an easy way to extract the device ID of your device. It returns a [String object](#string-class) of the device ID, which is used to identify your device.
 
 ```cpp
 // EXAMPLE USAGE
@@ -6370,7 +6608,7 @@ It is mandatory to update the *bootloader* (https://github.com/spark/firmware/tr
  - In *standard sleep mode*, the device current consumption is in the range of: **30mA to 38mA**
  - In *deep sleep mode*, the current consumption is around: **3.2 μA**
 - Photon
- - Please see the [Photon datasheet](/photon/photon-datasheet/#4-2-recommended-operating-conditions)
+ - Please see the [Photon datasheet](/datasheets/photon-datasheet/#recommended-operating-conditions)
 
 <!--
 System.sleep(int millis, array peripherals);
@@ -7192,7 +7430,7 @@ else
 }
 ```
 
-Another way to express branching, mutually exclusive tests, is with the [`switch case`](#control-structures-switch-case) statement.
+Another way to express branching, mutually exclusive tests, is with the [`switch case`](#switch-case) statement.
 
 #### for
 

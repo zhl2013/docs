@@ -11,7 +11,7 @@ order: 5
 
 ```c++
 void setup() {
-    Spark.publish("my-event","The internet just got smarter!");
+    Particle.publish("my-event","The internet just got smarter!");
 }
 ```
 
@@ -513,6 +513,10 @@ Cet équipement devrait être installé et actionné avec une distance minimum d
 | v002 | 31-May-2015 | BW | Update assets |
 | v003 | 1-June-2015 | BW | Updated VBAT_MICRO info |
 | v004 | 24-July-2015 | BW | Added FCC IC CE Warnings and End Product Labeling Requirements, Updated power output, added approved antennas, Corrected DAC2 as A3, Corrected A0 as pin 50, Corrected External Coexistence Interface pin numbers, Added RGB LED, SETUP and RESET button section. |
+
+## Known Errata
+
+We are tracking [known errata with this datasheet here](https://github.com/spark/docs/issues/19).  These issues/errors in the datasheet will be resolved in subsequent revisions.
 
 ## Contact
 

@@ -8,8 +8,7 @@ order: 4
 
 # Device Modes
 
-Now that we've gone over connecting your device, we're going to review the different modes for your Core or Photon. We suggest that you loop through this section, putting your device in the different listed modes to familiarize yourself with them.
-
+Now that we've gone over connecting your device, we're going to review the different modes for your {{device}}. We suggest that you work through this section, putting your device in the different listed modes to familiarize yourself with them.
 
 ## Standard Modes
 {{#if photon}}
@@ -47,37 +46,34 @@ Here's the typical pattern of a {{device}} after power up.
 
 {{{device-animation device "breathe" "cyan" }}}
 
-When it is breathing cyan, your {{device}} is happily connected to the internet. When it is in this mode, you can call functions and flash code.
+When it is breathing cyan, your {{device}} is happily connected to the Internet. When it is in this mode, you can call functions and flash code.
 
 
 ### OTA Firmware Update
 
 {{{device-animation device "blink" "magenta" }}}
 
-If your {{device}} is flashing magenta, it is currently loading an app or updating its firmware. This state is triggered by a firmware update or by flashing code from Particle Dev or Particle Build. You will often see this mode when you connect your {{device}} to the cloud for the first time.
+If your {{device}} is blinking magenta, it is currently loading an app or updating its firmware. This state is triggered by a firmware update or by flashing code from Particle Dev or Particle Build. You will often see this mode when you connect your {{device}} to the cloud for the first time.
 
-{{#if photon}}
 
-Note that, if you enter this mode by holding `SETUP` on boot, flashing magenta indicates that letting go of the `SETUP` button will enter safe mode to connect to the cloud and not run application firmware.
-
-{{/if}}
+Note that, if you enter this mode by holding {{#if photon}}`SETUP`{{/if}}{{#unless photon}}`MODE`{{/unless}} on boot, blinking magenta indicates that letting go of the {{#if photon}}`SETUP`{{/if}}{{#unless photon}}`MODE`{{/unless}} button will enter safe mode to connect to the cloud and not run application firmware.
 
 ### Looking For Internet
 
 {{{device-animation device "blink" "lime" }}}
 
-If your {{device}} is flashing green, it is trying to connect to the internet. If you already entered your {{#if electron}}cellular{{/if}}{{#if photon}}Wi-Fi{{/if}}{{#if core}}Wi-Fi{{/if}} credentials, give your device a few seconds to connect and start breathing cyan.
+If your {{device}} is blinking green, it is trying to connect to the internet. If you already entered your {{#if electron}}cellular{{/if}}{{#if photon}}Wi-Fi{{/if}}{{#if core}}Wi-Fi{{/if}} credentials, give your device a few seconds to connect and start breathing cyan.
 
 {{#if photon}}
-If you haven't yet connected your {{device}} to Wi-Fi, then set your device to [Listening Mode](#photon-modes-listening-mode).
+If you haven't yet connected your {{device}} to Wi-Fi, then set your device to [Listening Mode](#listening-mode).
 {{/if}}
 
 {{#if core}}
-If you haven't yet connected your {{device}} to Wi-Fi, then set your device to [Listening Mode](/core/modes/#core-modes-listening-mode). If your {{device}} continuously flashes green and won't stop, then try doing a [full firmware update](https://community.particle.io/t/spark-core-common-issues/12383).
+If you haven't yet connected your {{device}} to Wi-Fi, then set your device to [Listening Mode](#listening-mode). If your {{device}} continuously blinks green and won't stop, then try doing a [full firmware update](https://community.particle.io/t/spark-core-common-issues/12383).
 {{/if}}
 
 {{#if electron}}
-If you haven't connected your {{device}} to a cellular tower yet, please wait up to ten minutes. If it takes longer than that, refer to [cellular troubleshooting section](/support/troubleshooting/common-issues/electron/#flashing-green).
+If you haven't connected your {{device}} to a cellular tower yet, please wait up to ten minutes. If it takes longer than that, refer to [cellular troubleshooting section](/support/troubleshooting/common-issues/electron/#blinking-green).
 
 {{/if}}
 
@@ -87,7 +83,7 @@ If you haven't connected your {{device}} to a cellular tower yet, please wait up
 
 {{{device-animation device "blink" "cyan" }}}
 
-When the {{device}} is in the process of connecting to the cloud, it will rapidly flash cyan. You often see this mode when you first connect your {{device}} to a network, after it has just flashed green.
+When the {{device}} is in the process of connecting to the cloud, it will rapidly blink cyan. You often see this mode when you first connect your {{device}} to a network, after it has just blinked green.
 
 {{/if}}
 
@@ -113,29 +109,33 @@ If your {{device}} is breathing white, the {{#if electron}}cellular{{/if}}{{#if 
 When your {{device}} is in Listening Mode, it is waiting for your input to connect to {{#if electron}}a cellular tower{{/if}}{{#if photon}}Wi-Fi{{/if}}{{#if core}}Wi-Fi{{/if}}. Your {{device}} needs to be in Listening Mode in order to begin connecting with the Mobile App or over USB.
 
 {{#if photon}}
-
 {{{vine "https://vine.co/v/eZUHUIjq7pO/embed/simple"}}}
 
-To put your {{device}} in Listening Mode, hold the `SETUP` button for three seconds, until the RGB LED begins flashing blue.
+To put your {{device}} in Listening Mode, hold the `SETUP` button for three seconds, until the RGB LED begins blinking blue.
+{{/if}}
 
+{{#if electron}}
+{{#if photon}}
+{{{vine "https://vine.co/v/eZUHUIjq7pO/embed/simple"}}}
+{{/if}}
+
+To put your {{device}} in Listening Mode, hold the `MODE` button for three seconds, until the RGB LED begins blinking blue.
 {{/if}}
 
 {{#if core}}
-
 {{{vine "https://vine.co/v/eZUgHYYrYgl/embed/simple"}}}
 
-To put your {{device}} in Listening Mode, hold the `MODE` button for three seconds, until the RGB LED begins flashing blue.
-
+To put your {{device}} in Listening Mode, hold the `MODE` button for three seconds, until the RGB LED begins blinking blue.
 {{/if}}
 
-{{#if photon}}
-### Wi-Fi Network Reset
 
 {{#if photon}}
+
+### Wi-Fi Network Reset
 
 {{{vine "https://vine.co/v/eZUwtJljYnK/embed/simple"}}}
 
-To erase the stored wifi networks on your {{device}}, hold the `SETUP` button for about ten seconds, until the RGB LED flashes blue rapidly.
+To erase the stored wifi networks on your {{device}}, hold the `SETUP` button for about ten seconds, until the RGB LED blinks blue rapidly.
 
 You can also reset the Wi-Fi networks by holding the `SETUP` button and tapping `RESET`, then continuing to hold `SETUP` until the light on the {{device}} turns white. (This differs from the Core. Doing this action on the Core will result in a factory reset.)
 
@@ -143,33 +143,12 @@ You can also reset the Wi-Fi networks by holding the `SETUP` button and tapping 
 
 {{#if core}}
 
-{{{vine "https://vine.co/v/eZU6expA5bA/embed/simple"}}}
-
-To erase the stored wifi networks on your {{device}}, hold the `MODE` button for about ten seconds, until the RGB LED flashes blue rapidly.
-
-{{/if}}
-{{/if}}
-
-{{#if core}}
 ### Wi-Fi Network Reset
 
-{{#if photon}}
-
-{{{vine "https://vine.co/v/eZUwtJljYnK/embed/simple"}}}
-
-To erase the stored wifi networks on your {{device}}, hold the `SETUP` button for about ten seconds, until the RGB LED flashes blue rapidly.
-
-You can also reset the Wi-Fi networks by holding the `SETUP` button and tapping `RESET`, then continuing to hold `SETUP` until the light on the {{device}} turns white. (This differs from the Core. Doing this action on the Core will result in a factory reset.)
-
-{{/if}}
-
-{{#if core}}
-
 {{{vine "https://vine.co/v/eZU6expA5bA/embed/simple"}}}
 
-To erase the stored wifi networks on your {{device}}, hold the `MODE` button for about ten seconds, until the RGB LED flashes blue rapidly.
+To erase the stored wifi networks on your {{device}}, hold the `MODE` button for about ten seconds, until the RGB LED blinks blue rapidly.
 
-{{/if}}
 {{/if}}
 
 {{#if photon}}
@@ -185,9 +164,9 @@ Safe mode connects the {{device}} to the cloud, but does not run any application
 To put your device in Safe Mode:
 
 1. Hold down BOTH buttons
-2. Release only the RESET button, while holding down the SETUP button.
-3. Wait for the LED to start flashing magenta
-6. Release the SETUP button
+2. Release only the `RESET` button, while holding down the `SETUP` button.
+3. Wait for the LED to start blinking magenta
+6. Release the `SETUP` button
 
 The device will itself automatically enter safe mode if there is no application code flashed to the device or when the application is not valid.
 
@@ -208,9 +187,9 @@ Safe mode connects the {{device}} to the cloud, but does not run any application
 To put your device in Safe Mode:
 
 1. Hold down BOTH buttons
-2. Release only the RESET button, while holding down the SETUP button.
-3. Wait for the LED to start flashing magenta
-6. Release the SETUP button
+2. Release only the `RESET` button, while holding down the `MODE` button.
+3. Wait for the LED to start blinking magenta
+6. Release the `MODE` button
 
 The device will itself automatically enter safe mode if there is no application code flashed to the device or when the application is not valid.
 
@@ -229,23 +208,25 @@ And a usage guide [here.](/reference/cli/)
 
 To enter DFU Mode:
 
-{{#if photon}}
+{{#unless core}}
 
 1. Hold down BOTH buttons
-2. Release only the RESET button, while holding down the SETUP button.
+2. Release only the `RESET` button, while holding down the {{#if photon}}`SETUP`{{/if}}{{#if electron}}`MODE`{{/if}} button.
 3. Wait for the LED to start flashing yellow (it will flash magenta first)
-4. Release the SETUP button
+4. Release the {{#if photon}}`SETUP`{{/if}}{{#if electron}}`MODE`{{/if}} button
 
+{{#if photon}}
 {{{vine "https://vine.co/v/eZUHnhaUD9Y/embed/simple"}}}
-
 {{/if}}
+
+{{/unless}}
 
 {{#if core}}
 
 1. Hold down BOTH buttons
-2. Release only the RST button, while holding down the MODE button.
+2. Release only the `RST` button, while holding down the `MODE` button.
 3. Wait for the LED to start flashing yellow
-4. Release the MODE button
+4. Release the `MODE` button
 
 {{{vine "https://vine.co/v/eZUgeu0r639/embed/simple"}}}
 
@@ -273,7 +254,7 @@ Firmware reset is not available on the Photon/P1, but not to worry! If you are e
 
 Factory reset is not available on the Photon/P1, but not to worry! If you are experiencing problems with your application firmware, you can use [Safe Mode](#safe-mode) to recover.
 
-You can reset Wi-Fi credentials by performing a [WiFi Network Reset](#wifi-network-reset).
+You can reset Wi-Fi credentials by performing a [WiFi Network Reset](#wi-fi-network-reset).
 {{/if}}
 
 {{#if core}}
@@ -284,17 +265,17 @@ A factory reset restores the firmware on the {{device}} to the default Tinker ap
 
 Procedure:
 
-The procedure is same as the one described above (DFU Mode), but in this case you should continue holding down the MODE button until you see the {{device}} change from flashing yellow to flashing white. Then release the button.  The {{device}} should begin after the factory reset is complete.
+The procedure is same as the one described above (DFU Mode), but in this case you should continue holding down the MODE button until you see the {{device}} change from blinking yellow to blinking white. Then release the button.  The {{device}} should begin after the factory reset is complete.
 
 1. Hold down BOTH buttons
-2. Release only the RST button, while holding down the MODE button.
-3. Wait for the LED to start flashing yellow (continue to hold the MODE button)
-4. The LED will turn solid white (continue to hold the MODE button)
+2. Release only the `RST` button, while holding down the `MODE` button.
+3. Wait for the LED to start blinking yellow (continue to hold the `MODE` button)
+4. The LED will turn solid white (continue to hold the `MODE` button)
 5. Finally, the LED will turn blink white rapidly
-6. Release the MODE button
+6. Release the `MODE` button
 
 
-You can reset Wi-Fi credentials by performing a [WiFi Network Reset](#wifi-network-reset).
+You can reset Wi-Fi credentials by performing a [WiFi Network Reset](#wi-fi-network-reset).
 {{/if}}
 
 
@@ -336,55 +317,59 @@ When the {{device}} is connected to a {{#if electron}}cellular{{/if}}{{#if photo
 
 ### Bad Public Key
 
-When the server public key is bad, the {{device}} will flash alternately cyan and red.
+When the server public key is bad, the {{device}} will blink alternately cyan and red.
 
 
-### Red Flash Basic Errors
+### Red Blink Basic Errors
 
-Flashing red indicates various errors.
+Blinking red indicates various errors.
 
-- 2 red flashes: Could not reach the internet.
-- 3 red flashes: Connected to the internet, but could not reach the Particle Cloud.
-- Flashing "orange": This sometimes is misdiagnosed as yellow or red and indicates bad device keys.
-
+- 2 red blinks: Could not reach the internet.
+- 3 red blinks: Connected to the internet, but could not reach the Particle Cloud.
+- Blinking "orange": This sometimes is seen as yellow or red and indicates bad device keys.
 
 
 ### Red Flash SOS
 
 {{{device-animation device "sos" }}}
 
-Is your {{device}} flashing red? Oh no!
+Is your {{device}} blinking red? Oh no!
 
-A pattern of more than 10 red flashes is caused by the firmware crashing. The pattern is 3 short flashes, 3 long flashes, 3 short flashes (SOS pattern), followed by a number of flashes that depend on the error, then the SOS pattern again.
+A pattern of more than 10 red blinks is caused by the firmware crashing. The pattern is 3 short blinks, 3 long blinks, 3 short blinks (SOS pattern), followed by a number of blinks that depend on the error, then the SOS pattern again.
 
 {{#if photon}}
 [Enter safe mode](#safe-mode), tweak your firmware and try again!
-{{else}}
+{{/if}}
+{{#if electron}}
+[Enter safe mode](#safe-mode), tweak your firmware and try again!
+{{/if}}
+{{#if core}}
 [Perform a factory reset](#factory-reset), tweak your firmware and try again!
 {{/if}}
 
-There are a number of other red flash codes that may be expressed after the SOS blinks:
+There are a number of other red blink codes that may be expressed after the SOS blinks:
 
-#1 Hard fault
-#2 Non-maskable interrupt fault
-#3 Memory Manager fault
-#4 Bus fault
-#5 Usage fault
-#6 Invalid length
-#7 Exit
-#8 Out of heap memory
-#9 SPI over-run
-#10 Assertion failure
-#11 Invalid case
-#12 Pure virtual call
+1. Hard fault
+2. Non-maskable interrupt fault
+3. Memory Manager fault
+4. Bus fault
+5. Usage fault
+6. Invalid length
+7. Exit
+8. Out of heap memory
+9. SPI over-run
+10. Assertion failure
+11. Invalid case
+12. Pure virtual call
+13. Stack overflow
 
 The two most common ones are:
 
-**Hard Fault (1 flash between 2 SOS patterns)**
+**Hard Fault (1 blink between 2 SOS patterns)**
 
 {{{device-animation device "sos" 1 }}}
 
-**Out of heap memory (8 flashes between 2 SOS patterns)**
+**Out of heap memory (8 blinks between 2 SOS patterns)**
 
 {{{device-animation device "sos" 8 }}}
 

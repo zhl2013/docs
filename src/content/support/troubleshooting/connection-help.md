@@ -2,17 +2,18 @@
 title: Connectivity Help
 template: support.hbs
 columns: two
-devices: [ photon,electron,core ]
+devices: [ photon,core ]
 order: 8
 ---
 
 Connection Issues
 ===
 
+{{#if electron}}
 ## Using non Particle SIM card
 ### Steps for using non Particle SIM card for Electron
 *This section is coming soon!*
-
+{{/if}}
 
 
 ## Steps to Success
@@ -27,7 +28,7 @@ The {{#if photon}}Photon{{/if}}{{#if core}}Core{{/if}} works best with a traditi
 
 There are known issues with the following types of networks:
 
-- **802.11n-only networks**. The Core is 802.11b/g. Most 802.11n networks are backwards compatible with 802.11b/g, but if yours is not, the {{#if photon}}Photon{{/if}}{{#if core}}Core{{/if}} will not connect.
+- **802.11n-only networks**. The {{#if photon}}Photon{{/if}}{{#if core}}Core{{/if}} is 802.11b/g. Most 802.11n networks are backwards compatible with 802.11b/g, but if yours is not, the {{#if photon}}Photon{{/if}}{{#if core}}Core{{/if}} will not connect.
 - **Networks with ["captive portal"](http://en.wikipedia.org/wiki/Captive_portal) security**. A captive portal is the little website that comes up to ask you to sign in to a network or sign an agreement, like at a Starbucks. The {{#if photon}}Photon{{/if}}{{#if core}}Core{{/if}} can't navigate these portals.
 - **Enterprise networks**. We have had mixed results connecting the devices to enterprise networks, although we don't yet have a great understanding of what's causing the issue. This is something that we are working to improve.
 - **Complex Networks**. Networks with multiple routers, with non-standard firewalls, and with non-standard settings.
@@ -154,7 +155,7 @@ If you're on a noisy WiFi network you've had troubles flashing wirelessly in the
 
 **Flash via Particle CLI**
 
-The [Particle CLI](https://github.com/spark/particle-cli) s a swiss army command line knife that can be used to do all kinds of cool things...like flash a deep update to your core. The README provides some nice documentation about how to install it and [how to do a deep update over USB](https://github.com/spark/spark-cli#performing-a-deep-update). The process is pretty simple:
+The [Particle CLI](https://github.com/spark/particle-cli) s a swiss army command line knife that can be used to do all kinds of cool things...like flash a deep update to your core. The README provides some nice documentation about how to install it and [how to do a deep update over USB](https://github.com/spark/particle-cli#performing-a-deep-update). The process is pretty simple:
 
 Install or Upgrade the CLI (requires Node.js):
 
@@ -164,7 +165,9 @@ Connect a Core to your computer via USB and put it into [dfu-mode](/guide/gettin
 
 Run the flash command:
 
-``particle flash --usb deep_update_2014_06``
+- `particle flash --usb deep_update_2014_06` **(v1.28)**
+- `particle flash --usb cc3000` **(v1.29 stable - recommended)**
+- `particle flash --usb cc3000_1_14` **(v1.32 latest - not recommended without testing)**
 
 This installs the deep udate from a binary that is packaged with the Particle CLI, so you don't have to download it.
 
@@ -193,6 +196,3 @@ These commands replace the factory reset image, and re-patch the radio, bringing
 {{#if core}}
 [Go to Community Forums >](http://community.particle.io/c/troubleshooting)
 {{/if}}
-
-
-

@@ -2,7 +2,6 @@
 title: Kickstarter Questions
 template: support.hbs
 columns: two
-devices: [ photon, electron, core ]
 order: 3
 ---
 
@@ -11,7 +10,7 @@ Kickstarter Account & Electron Information
 
 ### When will the Electron Ship?
 
-The Electron is estimated to begin shipping to Kickstarter backers in **late January 2016**. Pre-orders for the Electron are scheduled to ship in **early February 2016**. 
+The Electron began shipping to Kickstarter and pre-order backers in **early February 2016**. The Electron will be available for general sale around **March 8, 2016**.
 
 ### Can I update my shipping details?
 
