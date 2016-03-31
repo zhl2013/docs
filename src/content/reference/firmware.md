@@ -628,7 +628,7 @@ It's possible to call `WiFi.connect()` without entering listening mode in the ca
 WiFi.connect(WIFI_CONNECT_NO_LISTEN);
 ```
 
-If there are no credentials then the call does nothing other than turn on the WiFi module. 
+If there are no credentials then the call does nothing other than turn on the WiFi module.
 
 
 ### disconnect()
@@ -2118,17 +2118,43 @@ void loop()
 ```
 
 {{#if electron}}
-## PMIC (Power Managment IC)
+## PMIC (Power Management IC)
 
 *Note*: This is advanced IO and for experienced users. This
 controls the LiPo battery management system and is handled automatically
 by the system firmware.
 
+The class is available as `PMIC`.
+
 ### begin()
 `bool begin();`
 
+This will call `Wire3.begin()` to initialize the I2C bus by the PMIC.
+
+NOTE: this is already called by the system firmware so calling this function is not recommended.
+
+```C++
+// EXAMPLE
+PMIC _power;
+
+void setup(){
+	_power.begin();
+}
+```
+
 ### getVersion()
 `byte getVersion();`
+
+The version number should return `0x23` for the BQ24195 IC
+
+```C++
+// EXAMPLE
+PMIC _power;
+
+void setup(){
+	byte pmicVersion = _power.getVersion();
+}
+```
 
 ### getSystemStatus()
 `byte getSystemStatus();`
@@ -2146,20 +2172,46 @@ by the system firmware.
 #### enableBuck()
 `bool enableBuck(void);`
 
+This will set the system load to be supplied by the buck converter.
+
 #### disableBuck()
 `bool disableBuck(void);`
+
+This will disable the buck converter and the system load will be supplied by the battery.
 
 #### setInputCurrentLimit()
 `bool setInputCurrentLimit(uint16_t current);`
 
+Sets the input current limit for the PMIC
+
+The range of values are: 100,150,500,900,1200,1500,2000,3000 (mAmp)
+
 #### getInputCurrentLimit()
-`byte getInputCurrentLimit(void);`
+
+This is currently not implemented.
 
 #### setInputVoltageLimit()
 `bool setInputVoltageLimit(uint16_t voltage);`
 
+This sets the minimum acceptable input voltage for the source. The default is `4.36 V`.
+
+The allowed voltage range is from 3880mV to 5080mV and incremented in steps of 80mV. Setting a voltage outside the range will return a `0`.
+
+```C++
+// EXAMPLE
+
+PMIC _power;
+
+void setup(){
+	//sets the minimum input voltage to 4.76V
+	_power.setInputVoltageLimit(4760);
+}
+```
+
 #### getInputVoltageLimit()
 `byte getInputVoltageLimit(void);`
+
+This is currently not implemented.
 
 ---
 
@@ -2183,8 +2235,16 @@ by the system firmware.
 #### setMinimumSystemVoltage()
 `bool setMinimumSystemVoltage(uint16_t voltage);`
 
+This sets the minimum acceptable voltage to feed the GSM module. The default is `3.5 V`.
+
+The allowed voltage range is from 3000,3100,3200,3300,3400,3500,3600,3700 (mV)
+
 #### getMinimumSystemVoltage()
 `uint16_t getMinimumSystemVoltage();`
+
+This retrieves the minimum acceptable voltage set to feed the GSM module.
+
+The return values are 3000,3100,3200,3300,3400,3500,3600,3700 (mV)
 
 #### readPowerONRegister()
 `byte readPowerONRegister(void);`
@@ -2298,8 +2358,26 @@ by the system firmware.
 #### isPowerGood()
 `bool isPowerGood(void);`
 
+This tells us if a power source is detected by the PMIC or not
+
+```C++
+// EXAMPLE
+
+PMIC _power;
+
+void setup(){
+	Particle.function("PowerStatus", checkPowerSource);
+}
+
+int checkPowerSource(String command){
+	return _power.isPowerGood();
+}
+```
+
 #### isHot()
 `bool isHot(void);`
+
+This indicates if the PMIC is in Thermal Regulation.
 
 #### getVsysStat()
 `bool getVsysStat();`
