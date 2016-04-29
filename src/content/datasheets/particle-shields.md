@@ -615,6 +615,9 @@ This is a 128x64 pixel graphic OLED screen that can be either controlled via the
 [Datasheet >](/assets/datasheets/makerkit/oled.pdf)
 
 ## Electron Solar Kit
+
+![Solar Shield](/assets/images/shields/solar-shield/solar-shield.png)
+
 The Solar Kit comes with everything you need to make a solar powered cellular project! Super efficient power design so you can go off-the-grid with no need of wires. It has a big 6W solar panel, waterproof enclosure with cable gland for connecting the panel, and a super low-power timing circuit so the Electron can sleep in between readings. It's an ideal solution for field sensing that needs to go on for months or years.
 
 ### Using the Solar Kit
