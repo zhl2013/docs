@@ -93,7 +93,7 @@ To access all registered variables and functions, go to **Particle** -> **Show c
 
 ![Getting variable]({{assets}}/images/ide-get-variable.gif)
 
-All variables declared with [Particle.variable()](/reference/firmware/#particle-variable-) are shown on the left side of panel. To poll latest variable value, click **Refresh** button for variable you want to update.
+All variables declared with [Particle.variable()](reference/firmware/#particle-variable-) are shown on the left side of panel. To poll latest variable value, click **Refresh** button for variable you want to update.
 
 ![Watching variable]({{assets}}/images/ide-watch-variable.gif)
 
