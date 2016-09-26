@@ -148,7 +148,7 @@ Using the Command Palette, launch the `Particle Dev Libraries:add` command (as a
 
 This will prompt you to begin typing in the name of the library. The first 10 libraries that partially match the entered name are shown. 
 
-![Library Add]({{assets}}/images/dev-library-add.jpg)
+![Library Add]({{assets}}/images/dev-library-add.png)
 
 To add the library to your project, hit enter to accept the selected library or click on a different library.  The library is added immediately once a library is clicked.  
 
@@ -179,7 +179,7 @@ To scaffold a new library, create one using the new V2 structure:
  - src/libraryname.h
  - examples/example.ino
 
-See the [https://github.com/spark/uber-library-example/tree/39acac03fa58a76417d9247a87206c416f1d4a0a](user-library-example) for detials of what to include in the `library.properties` file.
+See the [uber-library-example](https://github.com/spark/uber-library-example/tree/39acac03fa58a76417d9247a87206c416f1d4a0a) for detials of what to include in the `library.properties` file.
 
 
 ### Migrating an exiting V1 library to V2
