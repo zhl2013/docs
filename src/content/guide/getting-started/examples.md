@@ -6,6 +6,76 @@ devices: [ photon,electron,core,raspberry-pi ]
 order: 7
 ---
 
+
+{{#if has-linux}}
+
+# {{title}}
+
+## Blink an LED on your Pi
+
+### Introduction
+In this example, you're going to complete the ```Hello World``` of IoT projects and blink an LED over the Internet. Every Raspberry Pi has a small green LED that is user configurable, and for your first project, we're going to show you how to write firmware in our Web IDE to control it.
+
+<p class = "boxed">
+**TIP!**  
+LEDs can be super useful debugging tools. You can use the LED on your Pi as an indicator that a particular online action or trigger has occurred, that a sensor value is above a certain threshold, or that a switch is in the "on" or "off" state.
+
+</p>
+
+### Complete tutorial coming soon!
+
+We'll be filling out more code examples in the upcoming days and weeks. Be sure to check back soon for more example applications for your new Particle-connected Raspberry Pi!
+
+## Publish sensor values to the web
+
+### Introduction
+
+One of the most common use cases for IoT is to bring valuable sensor data online to make it accessible from anywhere and to inform intelligent reactions. Is the room temperature in your den climbing too high? Time to lower the shades. Are your plants overwatered from summer storms? Best not turn on the sprinklers.
+
+In this example, we'll show you how to collect sensor data from your Raspberry Pi (the internal temperature of your Pi's processor) and post that data to the Particle Console + Google Sheets using an IFTTT integration.
+
+### Complete tutorial coming soon!
+
+We'll be filling out more code examples in the upcoming days and weeks. Be sure to check back soon for more example applications for your new Particle-connected Raspberry Pi!
+
+
+## Remotely execute scripts on your Pi
+
+### Introduction
+
+One of the most powerful features of our Particle Pi software is the ability to batch execute scripts on fleets of Raspberry Pi devices using the `exec` command. In this tutorial, we'll show you how to use the `Particle.function()` primitive to interact with your Pi's local filesystem and coordinate the behavior of multiple Pi's in unison.
+
+### Complete tutorial coming soon!
+
+We'll be filling out more code examples in the upcoming days and weeks. Be sure to check back soon for more example applications for your new Particle-connected Raspberry Pi!
+
+
+## Capture and send high bandwidth media with your Pi
+
+### Introduction
+
+One of the limitations of embedded devices like the Photon and Electron is that it can be difficult to process high bandwidth applications like compressed audio and video and send that media over the Internet. With the powerful processor on board the Raspberry Pi, however, sending photos and videos with your Particle-connected project is a piece of cake.
+
+### Complete tutorial coming soon!
+
+We'll be filling out more code examples in the upcoming days and weeks. Be sure to check back soon for more example applications for your new Particle-connected Raspberry Pi!
+
+
+## Leverage your Pi's powerful processor
+
+### Introduction
+
+There are a bunch of neat IoT applications outside of media capture and transmission that require a beefy processor. One of the best examples is audio analysis -- think LED displays that react to ambient noise or visualize waveforms.
+
+This kind of heavy computational lifting is oftentimes more than an embedded processor can handle, but is the perfect use case for a device like the Raspberry Pi. In this tutorial, we'll show you how to use the powerful processor on your Pi to do Fast Fourier Transforms, analyze ambient sound, and visualize that information on an LED display.
+
+### Complete tutorial coming soon!
+
+We'll be filling out more code examples in the upcoming days and weeks. Be sure to check back soon for more example applications for your new Particle-connected Raspberry Pi!
+
+
+{{else}}
+
 # Annotated examples
 
 Here you will find a bunch of examples to get you started with your new Particle device! {{#unless electron}}The diagrams here show the Photon, but these examples will work with either the Photon or the Core.{{/unless}}
@@ -1299,4 +1369,6 @@ int tinkerAnalogWrite(String command)
 {{/if}}
 {{#if electron}}
 [Go to Community Forums >](http://community.particle.io/c/troubleshooting)
+{{/if}}
+
 {{/if}}
