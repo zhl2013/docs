@@ -15,6 +15,7 @@
           <h3 class="guide-section-titles" >{{{titleize section}}}</h3>
             <ul type="1">
               {{#each this}}
+              {{#empty-or-contains devices @root.deviceValue}}
                 <li class="top-level {{#page-equal ../../path.href ../../path.name path.href path.name}}active{{/page-equal}}" data-level="{{inc @../index}}.{{inc @index}}">
                   {{#page-equal ../../path.href ../../path.name path.href path.name}}
                     <span>{{{title}}}</span>
@@ -43,6 +44,7 @@
                     </div>
                   {{/if}}
                 {{/page-equal}}
+                {{/empty-or-contains}}
               {{/each}}
             </ul>
           </li>

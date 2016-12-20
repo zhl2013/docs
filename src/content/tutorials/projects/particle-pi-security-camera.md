@@ -2,6 +2,7 @@
 title: Raspberry Pi Security Camera
 template: tutorials.hbs
 columns: two
+devices: [ photon,electron,core,raspberry-pi ]
 order: 10
 ---
 

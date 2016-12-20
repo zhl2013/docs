@@ -2,6 +2,7 @@
 title: Maker Kit Tutorials
 template: tutorials.hbs
 columns: two
+devices: [ photon,electron,core,raspberry-pi ]
 order: 10
 ---
 

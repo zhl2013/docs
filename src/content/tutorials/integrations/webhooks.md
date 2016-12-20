@@ -2,6 +2,7 @@
 title: Webhooks
 template: tutorials.hbs
 columns: two
+devices: [ photon,electron,core,raspberry-pi ]
 order: 300
 ---
 

@@ -2,6 +2,7 @@
 title: Azure IoT Hub
 template: tutorials.hbs
 columns: two
+devices: [ photon,electron,core,raspberry-pi ]
 order: 200
 ---
 
