@@ -5,6 +5,10 @@ columns: two
 order: 3
 ---
 
+{{#pdf-only}}
+# Particle Industries, Inc.
+{{/pdf-only}}
+
 # Photon Datasheet <sup>(v014)</sup>
 
 **Model number:** PHOTONH, PHOTONNOH

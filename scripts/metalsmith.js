@@ -25,6 +25,8 @@ var lunr = require('metalsmith-lunr');
 var lunr_ = require('lunr');
 var fileMetadata = require('metalsmith-filemetadata');
 var msIf = require('metalsmith-if');
+var child_process = require('child_process');
+var pdf = require('metalsmith-pdf');
 var precompile = require('./precompile');
 var apidoc = require('./apidoc');
 var git = require('git-rev');
@@ -198,6 +200,14 @@ exports.metalsmith = function() {
       engine: 'handlebars',
       directory: '../templates'
     }))
+    .use(msIf(
+      hasWkhtmltopdf(),
+      pdf({
+        pattern: 'datasheets/*.html',
+        printMediaType: true,
+        pageSize: 'Letter'
+      })
+    ))
     .use(permalinks({
       relative: false
     }))
@@ -367,3 +377,12 @@ exports.server = function(callback) {
       });
   });
 };
+
+function hasWkhtmltopdf() {
+  try {
+    child_process.execSync('wkhtmltopdf --help');
+    return true;
+  } catch (e) {
+    return false;
+  }
+}

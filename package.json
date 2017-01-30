@@ -36,6 +36,7 @@
     "metalsmith-markdown": "spark/metalsmith-markdown#0.4.1",
     "metalsmith-move-up": "^1.0.0",
     "metalsmith-paths": "2.1.1",
+    "metalsmith-pdf": "git://github.com/spark/metalsmith-pdf#847712ca73e232536f8b0e357312eeb31ecf6419",
     "metalsmith-permalinks": "^0.4.0",
     "metalsmith-redirect": "^1.0.2",
     "metalsmith-register-helpers": "git://github.com/brycekahle/metalsmith-register-helpers",
