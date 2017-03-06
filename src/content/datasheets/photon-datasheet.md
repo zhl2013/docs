@@ -6,6 +6,8 @@ order: 3
 pdf: datasheet-pdf.hbs
 ---
 
+<img src="/assets/images/particle-horizontal.png" class="datasheet-logo">
+
 # Photon Datasheet <sup>(v014)</sup>
 
 **Model number:** PHOTONH, PHOTONNOH
@@ -54,14 +56,14 @@ The Photon comes in two physical forms: with headers and without. Prototyping is
 
 <div align=center><img src="/assets/images/photon-block-diagram.png" width=600></div>
 
----
-
 
 ### Power
 
 Power to the Photon is supplied via the on-board USB Micro B connector or directly via the VIN pin.  If power is supplied directly to the VIN pin, the voltage should be regulated between 3.6VDC and 5.5VDC.  When the Photon is powered via the USB port, VIN will output a voltage of approximately 4.8VDC due to a reverse polarity protection series schottky diode between V+ of USB and VIN. When used as an output, the max load on VIN is 1A.
 
 Typical average current consumption is 80mA with 5V @ VIN with Wi-Fi on. Deep sleep quiescent current is typically 80uA (Please refer to [Recommended Operating Conditions](#recommended-operating-conditions) for more info).  When powering the Photon from the USB connector, make sure to use a quality cable to minimize IR drops (current x resistance = voltage) in the wiring.  If a high resistance cable (i.e., low current) is used, peak currents drawn from the Photon when transmitting and receiving will result in voltage sag at the input which may cause a system brown out or intermittent operation.  Likewise, the power source should be sufficient enough to source 1A of current to be on the safe side.
+
+---
 
 ### RF
 
@@ -72,8 +74,6 @@ An RF feed line runs from the PØ module into a SPDT RF-switch.  Logic level con
 Additionally, a user API is available to switch between internal, external and even an automatic mode which continuously switches between each antenna and selects the best signal.  All three RF ports on the RF-switch have a 10pF RF quality DC-blocking capacitor in series with them.  These effectively pass 2.4GHz frequencies freely while blocking unwanted DC voltages from damaging the RF-switch.  All RF traces are considered as tiny transmission lines that have a controlled 50 ohm impedance.
 
 The chip antenna is impedance matched to the 50 ohm RF feed line via a Pi network comprised of three RF inductors (1 series, 2 shunt).  These values are quite specific to the Photon due to the PCB construction and layout of the RF section.  Even if the Photon's layout design is copied exactly, to achieve the best performance it would be worth re-examining the Pi network values on actual samples of the PCB in question.
-
----
 
 ### FCC Approved Antennas
 
@@ -243,7 +243,6 @@ echo -e "\xFF" > fillbyte && dfu-util -d 2b04:d006 -a 1 -s 3106 -D fillbyte
 
 ---
 
-
 ### Pin description
 
 | Pin | Description |
@@ -271,6 +270,8 @@ In addition to the 24 pins around the outside of the Photon, there are 7 pads on
 <div align=left><img src="/assets/images/photon-pinout2.png"</div>
 
 <div align=left><img src="/assets/images/photon-pinout3.png"</div>
+
+---
 
 ## Technical specification
 
@@ -310,6 +311,8 @@ In addition to the 24 pins around the outside of the Photon, there are 7 pads on
 
 <sup>[2]</sup> These are very short average current bursts when transmitting and receiving.  On average if minimizing frequency of TX/RX events, current consumption in powersave mode will be 18mA
 
+---
+
 ### Wi-Fi Specifications
 
 | Feature | Description| |
@@ -332,6 +335,7 @@ In addition to the 24 pins around the outside of the Photon, there are 7 pads on
 | RF Average Output Power, 802.11n OFDM Mode | MCS0 | - | +/- 1.5 | dBm |
 | <sub></sub> | MCS7 | - | +/- 1.5 | dBm |
 
+---
 
 ### I/O Characteristics
 
@@ -369,6 +373,8 @@ These specifications are based on the STM32F205RGY6 datasheet, with reference to
 
 <sub>[5]</sub> Pull-up and pull-down resistors are designed with a true resistance in series with switchable PMOS/NMOS. This PMOS/NMOS contribution to the series resistance is minimum (~10% order).
 
+---
+
 ## Mechanical specifications
 
 ### Dimensions and Weight
@@ -390,6 +396,8 @@ The Photon (with headers) can be mounted with (qty 2) 12-pin single row 0.1" fem
 
 You may also use other types, such as reverse mounted (bottom side SMT) female headers, low profile types, etc..
 
+---
+
 ### Recommended pcb land pattern (Photon with headers)
 
 The Photon (with headers) can be mounted with 0.1" 12-pin female header receptacles using the following PCB land pattern:
@@ -397,6 +405,8 @@ The Photon (with headers) can be mounted with 0.1" 12-pin female header receptac
 <div align=left><img src="/assets/images/photon_land_pattern_with_headers.png" width=300></div>
 
 A Photon with headers part for EAGLE can be found in the [Particle EAGLE library](https://github.com/spark/hardware-libraries#pcb-footprints-land-pattern)
+
+---
 
 ### Recommended pcb land pattern (Photon without headers)
 
@@ -409,6 +419,8 @@ In addition to the 24 pins around the outside of the Photon, there are 7 pads on
 Solder mask around exposed copper pads should be 0.1mm (4 mils) larger in all directions.  E.g., a 0.08" x 0.10" pad would have a 0.088" x 0.108" solder mask.
 
 A Photon without headers part for EAGLE can be found in the [Particle EAGLE library](https://github.com/spark/hardware-libraries#pcb-footprints-land-pattern)
+
+---
 
 ## Schematic
 
@@ -432,6 +444,8 @@ A Photon without headers part for EAGLE can be found in the [Particle EAGLE libr
 
 <div align=center><img src="/assets/images/photon-sch-p0-wifi-module.png" width=500></div>
 
+---
+
 ## Layout
 
 ### Photon v1.0.0 Top Layer (GTL)
@@ -446,6 +460,8 @@ A Photon without headers part for EAGLE can be found in the [Particle EAGLE libr
 ### Photon v1.0.0 Bottom Layer (GBL)
 <div align=center><img src="/assets/images/photon_v100_pcb_bot.png" width=200></div>
 
+---
+
 ## Recommended solder reflow profile
 
 <div align=left><img src="/assets/images/photon-reflow-profile.png" width=600></div>
@@ -457,6 +473,8 @@ A Photon without headers part for EAGLE can be found in the [Particle EAGLE libr
 | C-D. | 200~245°C, Heating rate: < 3°C/s |
 | D.   | Peak temp.: 235~245°C, Time above 220°C: 40~90 s |
 | D-E. | 245~220°C, Cooling rate: < 1°C/s |
+
+---
 
 ## Bill of Materials
 
@@ -489,6 +507,8 @@ A Photon without headers part for EAGLE can be found in the [Particle EAGLE libr
 |4|RESISTOR|1k 5%|0402|R1,R2,R3,R7|Fenghua|RC-02W102JT|
 |2|SWITCH|Button 160gf|3.6mm x 3.1mm|SETUP,RESET|Haoyu|TS-1185A-C|
 
+---
+
 ## Ordering information
 
 Photons are available from [store.particle.io](https://store.particle.io/) in single quantities with and without headers, and also included in different maker kits.
@@ -511,6 +531,7 @@ Photons are available from [store.particle.io](https://store.particle.io/) in si
 -	FCC ID: 2AEMI-PHOTON
 -	IC: 20127-PHOTON
 
+---
 
 ## Product handling
 
@@ -531,6 +552,8 @@ Photons without headers in matchbox packaging are also available in JEDEC style 
 ### ESD Precautions
 
 <i class="icon-attention"></i> The photon contains highly sensitive electronic circuitry and is an Electrostatic Sensitive Device (ESD). Handling a photon without proper ESD protection may destroy or damage it permanently.  Proper ESD handling and packaging procedures must be applied throughout the processing, handling and operation of any application that incorporates photons.  ESD precautions should be implemented on the application board where the photon is mounted. Failure to observe these precautions can result in severe damage to the photon! <i class="icon-attention"></i>
+
+---
 
 ## Default settings
 
@@ -627,6 +650,8 @@ This End equipment should be installed and operated with a minimum distance of 2
 Cet équipement devrait être installé et actionné avec une distance minimum de 20 centimètres entre le radiateur et votre corps.
 
 > The end user manual shall include all required regulatory information/warning as shown in this manual.
+
+---
 
 ## Revision history
 
