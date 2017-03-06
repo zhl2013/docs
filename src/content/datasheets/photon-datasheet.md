@@ -3,6 +3,7 @@ title: Photon datasheet
 layout: datasheet.hbs
 columns: two
 order: 3
+pdf: datasheet-pdf.hbs
 ---
 
 # Photon Datasheet <sup>(v014)</sup>

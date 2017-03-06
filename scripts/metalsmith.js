@@ -26,6 +26,7 @@ var partials = require('metalsmith-register-partials');
 var helpers = require('metalsmith-register-helpers');
 var deviceFeatureFlags = require('./device_feature_flags');
 var redirects = require('./redirects');
+var pdf = require('./pdf');
 var copy = require('metalsmith-copy');
 var fork = require('./fork');
 var inPlace = require('metalsmith-in-place');
@@ -233,6 +234,9 @@ exports.metalsmith = function() {
       selector: 'h2, h3',
       pattern: '**/**/*.md'
     }))
+    .use(pdf({
+		key: 'pdf'
+	}))
     // Generate Lunr search index for all the files that have lunr: true
     // This is slow. Use SEARCH_INDEX=0 in development to avoid creating this file
     .use(lunr({
@@ -245,7 +249,7 @@ exports.metalsmith = function() {
           removeEmptyTokens
       ]
     }))
-    // For files that have a template frontmatter key, look for that template file in the configured directory and
+    // For files that have a layout frontmatter key, look for that template file in the configured directory and
     // render that template using the Metalsmith file with all its keys as context
     .use(layouts({
       engine: 'handlebars',

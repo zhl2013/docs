@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "apidoc": "^0.17.5",
+    "async": "^2.1.4",
     "handlebars": "^3.0.1",
     "lodash": "^4.17.4",
     "lunr": "^0.7.2",
