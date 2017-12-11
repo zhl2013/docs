@@ -412,7 +412,9 @@ To use `Particle.subscribe()`, define a handler function and register it in `set
 
 ---
 
-You can listen to events published only by your own devices by adding a `MY_DEVICES` constant.
+You can listen to events published only by your own devices by adding a `MY_DEVICES` constant. Specifically
+this receives only events published as `PRIVATE` - public events published by your own devices are not
+received by a `MY_DEVICES` handler. 
 
 ```cpp
 // only events from my devices
