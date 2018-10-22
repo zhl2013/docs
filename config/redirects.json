@@ -65,6 +65,8 @@
 	"/ifttt" : "/guide/tools-and-features/ifttt",
 	"/ios" : "/reference/ios",
 	"/javascript" : "/reference/javascript",
+	"/mesh/reference":"/reference/firmware",
+	"/mesh/tutorials":"/guide/getting-started/examples",
 	"/mobile" : "/reference/ios",
 	"/modes" : "/guide/getting-started/modes",
 	"/monitor" : "/reference/cli/#particle-monitor",
