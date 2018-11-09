@@ -337,7 +337,8 @@ exports.test = function(callback) {
   var server = serve({ cache: 300, port: 8081 });
   git.branch(function (str) {
     gitBranch = process.env.TRAVIS_BRANCH || str;
-    generateSearch = true;
+    var updateCache = process.env.UPDATE_CACHE && process.env.UPDATE_CACHE !== 'false';
+    generateSearch = !updateCache;
     exports.metalsmith()
       .use(server)
       .build(function(err, files) {
