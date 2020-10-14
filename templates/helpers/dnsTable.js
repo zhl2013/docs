@@ -8,6 +8,7 @@ var lastCssClass;
 
 module.exports = function(context) {
     const key = context.hash.key;
+    const metadata = context.data.root;
     if (!key) {
         return '';
     }
@@ -15,8 +16,8 @@ module.exports = function(context) {
 
     // console.log('context', context);
     // console.log('context.data.root.dns_table', context.data.root.dns_table);
-    
-    return generateTable(context.data.root.dnsTable[key].addresses, columns);
+
+    return generateTable(metadata.dnsTable[key].addresses, columns);
 };
 
 function generateTable(addresses, columns) {

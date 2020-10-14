@@ -42,6 +42,7 @@ var git = require('git-rev');
 var path = require('path');
 var fs = require('fs');
 var sitemap = require('./sitemap.js');
+var resolveParticleDns = require('./resolve-particle-dns');
 
 var handlebars = require('handlebars');
 var prettify = require('prettify');
@@ -279,6 +280,8 @@ exports.metalsmith = function () {
     .use(redirects({
       config: '../config/redirects.json'
     }))
+    // Resolve the IP addresses for inserting into docs
+    .use(resolveParticleDns())
     // Replace the {{handlebar}} markers inside Markdown files before they are rendered into HTML and
     // any other files with a .hbs extension in the src folder
     .use(inPlace({
